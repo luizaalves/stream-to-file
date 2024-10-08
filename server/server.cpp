@@ -11,7 +11,7 @@ void Server::connect(void) {
         for (;;) {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            boost::array<char, 128> buf;
+            boost::array<uint8_t, 128> buf;
             boost::system::error_code error;
 
             size_t len = socket.read_some(boost::asio::buffer(buf), error);
@@ -30,7 +30,7 @@ void Server::connect(void) {
 
             fs::path p{"../server/"+nome_arquivo};
             fs::ofstream ofs{p};
-            ofs.write(buf.data(), len);
+            ofs.write((char *) buf.data(), len);
         }
     } catch (exception& e)
     {
