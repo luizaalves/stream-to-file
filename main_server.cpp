@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    Server server(8080);
+    Server server(8080, 1024);
     server.connect();
     return 0;
 }

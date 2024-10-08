@@ -15,7 +15,7 @@ void Server::connect(void) {
             boost::system::error_code error;
 
             size_t len = socket.read_some(boost::asio::buffer(buf), error);
-            if(len == 0) continue;
+            if(len == 0 || len > size_file_max) continue;
             if (error == boost::asio::error::eof)
             break; // Connection closed cleanly by peer.
             else if (error)
