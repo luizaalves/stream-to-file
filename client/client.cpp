@@ -1,16 +1,27 @@
 #include <iostream>
-#include <sys/socket.h>
+#include <boost/asio.hpp>
+
 
 #include "client.hpp"
 
 using namespace std;
+using boost::asio::ip::tcp;
 
-Client::Client(void) {
-    //Constructor
-}
 
 void Client::connect_server(void) {
-    cout << "Hello, I'm Client" << endl;
+    try {
+        boost::asio::connect(socket, endpoints);
+ 
+        string message = "hello server, I'm client";
+
+        boost::system::error_code ignored_error;
+        boost::asio::write(socket, boost::asio::buffer(message), ignored_error);
+        cout << "Message sent" << endl;
+
+    } catch (exception& e)
+    {
+        cerr << e.what() << endl;
+    }
 }
 
 Client::~Client() {
