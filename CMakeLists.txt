@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 3.16)
 
 project(CognyteChallenge)
 
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(salve_files main.cpp server/server.cpp client/client.cpp)
+add_executable(main_server main_server.cpp server/server.cpp)
+target_link_libraries(main_server ${Boost_LIBRARIES})
+
+add_executable(main_client main_client.cpp client/client.cpp)
+target_link_libraries(main_client ${Boost_LIBRARIES})

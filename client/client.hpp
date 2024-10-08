@@ -8,7 +8,7 @@ private:
 public:
 Client();
 
-void connect(void);
+void connect_server(void);
 
 ~Client();
 

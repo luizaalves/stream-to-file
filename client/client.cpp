@@ -9,7 +9,7 @@ Client::Client(void) {
     //Constructor
 }
 
-void Client::connect(void) {
+void Client::connect_server(void) {
     cout << "Hello, I'm Client" << endl;
 }
 
