@@ -16,8 +16,9 @@ void Client::connect_server(void) {
         boost::asio::connect(socket, endpoints);
         boost::array<uint8_t, 128> buf;
         size_t len;
-        fs::path p{"../client/test.txt"};
+        fs::path p{file_to_send};
         fs::ifstream ofs{p};
+        if(!ofs) return;
         ofs.read((char *)buf.data(), buf.size());
 
         boost::system::error_code ignored_error;

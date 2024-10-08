@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    Client client("127.0.0.1", "8080");
+    Client client("127.0.0.1", "8080", "../client/test.txt");
     client.connect_server();
     return 0;
 }
