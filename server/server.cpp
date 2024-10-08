@@ -14,12 +14,6 @@ void Server::connect(void) {
             boost::array<uint8_t, 128> buf;
             boost::system::error_code error;
 
-            size_t len = socket.read_some(boost::asio::buffer(buf), error);
-            if(len == 0 || len > size_file_max) continue;
-            if (error == boost::asio::error::eof)
-            break; // Connection closed cleanly by peer.
-            else if (error)
-                throw boost::system::system_error(error); // Some other error.
             time_t timestamp;
             time(&timestamp);
             tm* local_time = localtime(&timestamp);
@@ -30,7 +24,21 @@ void Server::connect(void) {
 
             fs::path p{"../server/"+nome_arquivo};
             fs::ofstream ofs{p};
-            ofs.write((char *) buf.data(), len);
+            int i=0;
+            uint16_t total_size_file = 0;
+
+            while(true) {
+                size_t len = socket.read_some(boost::asio::buffer(buf), error);
+                total_size_file+=len;
+
+                if (error == boost::asio::error::eof)
+                break; // Connection closed cleanly by peer.
+                else if (error)
+                    throw boost::system::system_error(error); // Some other error.
+                ofs.write((char *) buf.data(), len);
+                memset(buf.data(), 0, buf.size()); 
+            }
+            cout << total_size_file <<endl;
         }
     } catch (exception& e)
     {
