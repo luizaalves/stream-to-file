@@ -21,19 +21,17 @@ void Server::connect(void) {
             oss << put_time(local_time, "%Y%m%d%H%M%S");
             
             string nome_arquivo = "PREFIXO_" + oss.str();
+            string full_path = string(BASE_PATH) +"/../server/"+nome_arquivo;
+            fs::ofstream ofs( full_path, ios_base::out );
 
-            fs::path p{"../server/"+nome_arquivo};
-            fs::ofstream ofs{p};
             int i=0;
             uint16_t total_size_file = 0;
 
-            while(true) {
+            while(error != boost::asio::error::eof) {
                 size_t len = socket.read_some(boost::asio::buffer(buf), error);
                 total_size_file+=len;
 
-                if (error == boost::asio::error::eof)
-                break; // Connection closed cleanly by peer.
-                else if (error)
+                if (error && error != boost::asio::error::eof)
                     throw boost::system::system_error(error); // Some other error.
                 ofs.write((char *) buf.data(), len);
                 memset(buf.data(), 0, buf.size()); 
