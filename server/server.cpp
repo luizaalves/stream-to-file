@@ -21,22 +21,41 @@ void Server::connect(void) {
             oss << put_time(local_time, "%Y%m%d%H%M%S");
             
             string nome_arquivo = "PREFIXO_" + oss.str();
-            string full_path = string(BASE_PATH) +"/../server/"+nome_arquivo;
-            fs::ofstream ofs( full_path, ios_base::out );
+            string original_path = string(BASE_PATH) +"/../server/"+nome_arquivo;
+            string dst_full_path = original_path;
+            fs::path file_path(dst_full_path);
+            
+            fs::fstream ofs( file_path, ios_base::out );
 
-            int i=0;
+            int file_sequence = 1;
             uint16_t total_size_file = 0;
 
             while(error != boost::asio::error::eof) {
                 size_t len = socket.read_some(boost::asio::buffer(buf), error);
+                if(len==0) break;
                 total_size_file+=len;
-
                 if (error && error != boost::asio::error::eof)
                     throw boost::system::system_error(error); // Some other error.
-                ofs.write((char *) buf.data(), len);
+                
+                if(total_size_file > size_file_max) {
+                    size_t size_new_file = total_size_file-size_file_max;
+                    size_t new_pos = len-size_new_file;
+
+                    ofs.write((char *) buf.data(), new_pos);
+                    
+                    dst_full_path = original_path+"_"+to_string(file_sequence);
+                    rename(original_path.data(), dst_full_path.data());
+                    file_sequence++;
+                    ofs.close();
+                    dst_full_path = original_path+"_"+to_string(file_sequence);
+                    file_path = dst_full_path;
+                    ofs.open( file_path, ios_base::out );
+                    ofs.write((char *) buf.data()+new_pos, size_new_file);
+                    total_size_file=size_new_file;
+                }
+                else ofs.write((char *) buf.data(), len);
                 memset(buf.data(), 0, buf.size()); 
             }
-            cout << total_size_file <<endl;
         }
     } catch (exception& e)
     {
