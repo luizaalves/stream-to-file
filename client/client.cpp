@@ -15,6 +15,15 @@ using boost::filesystem::path;
 void Client::connect_server(void) {
     try {
         boost::asio::connect(socket, endpoints);
+    } catch (exception& e)
+    {
+        cerr << e.what() << endl;
+    }
+}
+
+void Client::send_file(string file_to_send) {
+    try
+    {
         uint8_t buf[BUF_SIZE];
         size_t len;
         uint16_t bytes_read = BUF_SIZE;
@@ -40,11 +49,12 @@ void Client::connect_server(void) {
             memset(buf, 0, BUF_SIZE); 
         }
         cout << "Message sent" << endl;
-
-    } catch (exception& e)
-    {
-        cerr << e.what() << endl;
     }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
 }
 
 Client::~Client() {

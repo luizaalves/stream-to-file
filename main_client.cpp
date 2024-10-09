@@ -10,9 +10,10 @@ int main(int argc, char* argv[]) {
     string ip = env["IP"].to_string();
     string file_path = env["FILE_PATH"].to_string();
 
-    if(port.size() == 0 || ip.size() == 0 || file_path.size() == 0) return 0;
+    if(port.size() == 0 || ip.size() == 0) return 0;
 
-    Client client(ip, port, file_path);
+    Client client(ip, port);
     client.connect_server();
+    client.send_file(file_path);
     return 0;
 }
