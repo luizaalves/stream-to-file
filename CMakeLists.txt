@@ -9,8 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(BASE_PATH "${CMAKE_BINARY_DIR}")
 add_definitions(-DBASE_PATH="${BASE_PATH}")
-add_executable(main_server main_server.cpp server/server.cpp)
+add_executable(main_server main_server.cpp server/server.cpp server/tcp_connection.cpp server/tcp_server.cpp)
 target_link_libraries(main_server ${Boost_LIBRARIES})
 
 add_executable(main_client main_client.cpp client/client.cpp)
-target_link_libraries(main_client ${Boost_LIBRARIES})

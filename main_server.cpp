@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     string max_file_size = env["FILE_SIZE"].to_string();
     if(port.size() == 0 || max_file_size.size() == 0) return 0;
 
-    Server server((unsigned int)stoi(port), (uint16_t) stoul(max_file_size));
-    server.connect();
+    Server server;
+    server.start((unsigned int)stoi(port), (uint16_t) stoul(max_file_size) );
     return 0;
 }
