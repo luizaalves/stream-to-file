@@ -8,7 +8,7 @@ uint16_t tcp_server::max_size_file() {
 
 void tcp_server::start_accept() {
     tcp_connection::pointer new_connection = tcp_connection::create(io_context_, 
-                                                full_file_path(), max_size_file_);
+                                                full_file_path(), max_size_file_, time_close_conn_);
 
     acceptor_.async_accept(new_connection->socket(), 
     boost::bind(&tcp_server::handle_accept, this, new_connection,

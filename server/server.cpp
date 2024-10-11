@@ -2,12 +2,12 @@
 #include "tcp_server.hpp"
 #include <iostream>
 
-void Server::start(uint16_t port, uint16_t size_file_max) {
+void Server::start(uint16_t port, uint16_t size_file_max, uint16_t time_close_conn) {
     try {
-        boost::asio::io_service io_service;
-        tcp_server server(io_service, port, size_file_max);
+        boost::asio::io_context io_context;
+        tcp_server server(io_context, port, size_file_max, time_close_conn);
 
-        io_service.run();
+        io_context.run();
     } catch (exception& e) {
         cerr << e.what() << endl;
     }

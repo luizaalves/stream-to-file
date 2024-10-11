@@ -33,11 +33,11 @@ void Client::send_file(string file_to_send) {
         fs::ifstream ofs{path};
         if(!ofs) return;
         
+        boost::system::error_code ignored_error;
         while(bytes_read == BUF_SIZE) {
             ofs.seekg(blocks_read_from_file);
             ofs.read((char *)buf, sizeof(buf));
 
-            boost::system::error_code ignored_error;
 
             boost::asio::write(socket, boost::asio::buffer(buf, ofs.gcount()), ignored_error);
 
@@ -48,7 +48,11 @@ void Client::send_file(string file_to_send) {
             }
             memset(buf, 0, BUF_SIZE); 
         }
-        cout << "Message sent" << endl;
+        if (ignored_error) {
+            cerr << "Erro ao enviar a mensagem: " << ignored_error.message() << std::endl;
+        } else {
+            cout << "Message sent" << endl;
+        }
     }
     catch(const std::exception& e)
     {

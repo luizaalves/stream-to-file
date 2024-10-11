@@ -3,8 +3,8 @@
 
 namespace fs = boost::filesystem;
 
-tcp_connection::pointer tcp_connection::create(boost::asio::io_context& io_context, string file, uint16_t max_size) {
-    return pointer(new tcp_connection(io_context, file, max_size));
+tcp_connection::pointer tcp_connection::create(boost::asio::io_context& io_context, string file, uint16_t max_size, uint16_t time_close_conn) {
+    return pointer(new tcp_connection(io_context, file, max_size, time_close_conn));
 }
 
 tcp::socket& tcp_connection::socket() {
@@ -13,15 +13,20 @@ tcp::socket& tcp_connection::socket() {
 
 void tcp_connection::start() {
     boost::system::error_code error;
+    timer_.expires_after(boost::asio::chrono::seconds(time_close_conn_));
 
     boost::asio::async_read(socket_, boost::asio::buffer(buf, sizeof(buf)),
                             boost::bind(&tcp_connection::handle_read, shared_from_this(),
                                         boost::asio::placeholders::error,
                                         boost::asio::placeholders::bytes_transferred));
+    timer_.async_wait([self = shared_from_this()](const boost::system::error_code& e) {
+    self->print(e);
+    });
 }
 
 void tcp_connection::handle_read(const boost::system::error_code& error,
                                 size_t bytes_transferred) {
+    if(bytes_transferred==0) return;
     
     fs::fstream ofs( file_full_path_, std::ios::out | std::ios::app);
     
@@ -45,8 +50,18 @@ void tcp_connection::handle_read(const boost::system::error_code& error,
         ofs.write((char *) buf.data(), bytes_transferred);
         ofs.close();
     }
-
-    
-    
     start();
+}
+
+void tcp_connection::print(const boost::system::error_code& e) {
+  if (timer_.expiry() <= steady_timer::clock_type::now())
+    {
+      std::cout << "socket close\n";
+      socket_.close();
+      timer_.cancel();
+
+      timer_.expires_at(steady_timer::time_point::max());
+    }
+
+    timer_.async_wait(boost::bind(&tcp_connection::print, shared_from_this(), boost::asio::placeholders::error));
 }

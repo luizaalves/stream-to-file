@@ -11,7 +11,7 @@ private:
 public:
 Server() {
 }
-void start(uint16_t port, uint16_t size_file_max);
+void start(uint16_t port, uint16_t size_file_max, uint16_t time_close_conn);
 
 ~Server();
 
