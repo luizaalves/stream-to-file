@@ -1,6 +1,5 @@
 #include "server.hpp"
 #include "tcp_server.hpp"
-#include <iostream>
 
 void Server::start(uint16_t port, uint16_t size_file_max, uint16_t time_close_conn) {
     try {

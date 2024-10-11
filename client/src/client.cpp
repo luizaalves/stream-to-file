@@ -1,10 +1,8 @@
-#include <iostream>
-#include <boost/asio.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/array.hpp>
-#include <iostream>
 
 #include "client.hpp"
+
 #define BUF_SIZE 512
 
 using namespace std;

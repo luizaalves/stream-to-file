@@ -1,5 +1,6 @@
-#include "tcp_connection.hpp"
 #include <boost/bind.hpp>
+
+#include "tcp_connection.hpp"
 
 namespace fs = boost::filesystem;
 

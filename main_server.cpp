@@ -1,6 +1,7 @@
 #include <iostream>
-#include "server/server.hpp"
 #include <boost/process/environment.hpp>
+
+#include "server.hpp"
 
 using namespace std;
 

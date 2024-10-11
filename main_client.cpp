@@ -2,6 +2,8 @@
 #include "client/client.hpp"
 #include "boost/process/environment.hpp"
 
+#include "client.hpp"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {

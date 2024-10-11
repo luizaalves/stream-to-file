@@ -1,6 +1,7 @@
-#include "tcp_server.hpp"
-#include <boost/bind.hpp>
 #include <iomanip>
+#include <boost/bind.hpp>
+
+#include "tcp_server.hpp"
 
 uint16_t tcp_server::max_size_file() {
     return max_size_file_;

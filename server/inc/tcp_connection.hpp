@@ -1,11 +1,11 @@
 #ifndef TCP_CONNECTION_HPP
 #define TCP_CONNECTION_HPP
 
+#include <iostream>
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/array.hpp>
-#include <iostream>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/asio/steady_timer.hpp>
 

@@ -1,10 +1,11 @@
 #ifndef TCP_SERVER_HPP
 #define TCP_SERVER_HPP
 
-#include <boost/asio.hpp>
 #include <iostream>
-#include "tcp_connection.hpp"
+#include <boost/asio.hpp>
 #include <boost/filesystem/fstream.hpp>
+
+#include "tcp_connection.hpp"
 
 using namespace std;
 using boost::asio::ip::tcp;
