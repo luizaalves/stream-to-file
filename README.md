@@ -48,10 +48,10 @@ O projeto está preparado para ser executado em um ambiente Docker.
 
 5. Informações sobre quais bibliotecas e versões foram utilizadas:
 
-Linguagem: C++11
-Bibliotecas: Boost versão 1.74.0
-Sistema Operacional de Desenvolvimento: Ubuntu 22.04
-Containerização: Docker
+* Linguagem: C++11;
+* Bibliotecas: Boost versão 1.74.0;
+* Sistema Operacional de Desenvolvimento: Ubuntu 22.04;
+* Containerização: Docker.
 
 6. Qual o tempo aproximado gasto no desenvolvimento do software:
 
